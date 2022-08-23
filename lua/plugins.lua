@@ -110,7 +110,7 @@ use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
 -- Language and Syntax
 ----------------------
 use {'windwp/nvim-autopairs', after = {'nvim-treesitter'}, config = function() require('plugins.autopairs') end}
-use {'rrethy/vim-hexokinase', run = 'make hexokinase'}
+use {'norcalli/nvim-colorizer.lua', config = function() require('colorizer').setup() end}
 use {'lukas-reineke/indent-blankline.nvim', config = function() require('plugins.indent-blankline') end}
 use {'mfussenegger/nvim-dap', config = function() require('plugins.dap') end}
 use {'rcarriga/nvim-dap-ui', requires = {"mfussenegger/nvim-dap"}, config = function() require('plugins.dap-ui') end}
