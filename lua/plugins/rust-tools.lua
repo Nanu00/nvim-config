@@ -1,5 +1,5 @@
 -- Update this path
-local extension_path = '/home/shantanu/.vscode-oss/extensions/vadimcn.vscode-lldb-1.6.10/'
+local extension_path = os.getenv('HOME') .. '/.vscode-oss/extensions/vadimcn.vscode-lldb-1.6.10/'
 local codelldb_path = extension_path .. 'adapter/codelldb'
 local liblldb_path = extension_path .. 'lldb/lib/liblldb.so'
 
