@@ -6,12 +6,10 @@ local compile_path = install_path .. "/plugin/packer_compiled.lua"
 local is_installed = vim.fn.empty(vim.fn.glob(install_path)) == 0
 
 if not is_installed then
-    if vim.fn.input("Install packer.nvim? (y for yes) ") == "y" then
-        execute("!git clone https://github.com/wbthomason/packer.nvim " .. install_path)
-        execute("packadd packer.nvim")
-        print("Installed packer.nvim.")
-        is_installed = 1
-    end
+    execute("!git clone https://github.com/wbthomason/packer.nvim " .. install_path)
+    execute("packadd packer.nvim")
+    print("Installed packer.nvim.")
+    is_installed = 1
 end
 
 -- Packer commands
