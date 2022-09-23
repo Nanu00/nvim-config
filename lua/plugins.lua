@@ -55,10 +55,13 @@ use {'navarasu/onedark.nvim', config = function() require('plugins.onedark') end
 ------------
 -- LSP stuff
 ------------
+-- Server installer
+use {'williamboman/mason.nvim', config = function() require('plugins.mason') end}
+use {'williamboman/mason-lspconfig.nvim', config = function() require('plugins.mason-lspconfig') end}
+
+-- LSP configuration
 use {'neovim/nvim-lspconfig', config = function() require('plugins.lsp') end}
 
--- Server installer
-use {'williamboman/nvim-lsp-installer', config = function() require('plugins.lsp-installer') end}
 
 -- UI
 use {'nvim-lua/lsp-status.nvim'}
@@ -83,6 +86,7 @@ use {'saadparwaiz1/cmp_luasnip'}
 use {'onsails/lspkind-nvim'}
 use {'ray-x/cmp-treesitter'}
 use {'hrsh7th/nvim-cmp', config = function() require('plugins.cmp') end}
+use {'jose-elias-alvarez/null-ls.nvim', config = function() require('plugins.null-ls') end, requires = {'nvim-lua/plenary.nvim'}}
 
 -------------
 -- Treesitter
@@ -144,4 +148,5 @@ use {'SirVer/ultisnips', requires = {"honza/vim-snippets", rtp = '.'}, config = 
 use {'Saecki/crates.nvim', requires = { 'nvim-lua/plenary.nvim' }, config = function() require'crates'.setup{} end}
 -- use {'iamcco/markdown-preview.nvim', config = function() require('plugins.markdown-preview') end, run = 'cd app && yarn install', ft = 'markdown'}
 use {'ellisonleao/glow.nvim', branch = 'main', config = function() require('plugins.glow') end}
-use { 'tommcdo/vim-exchange' }
+use {'tommcdo/vim-exchange'}
+use {'stevearc/dressing.nvim'}

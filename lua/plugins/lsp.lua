@@ -1,4 +1,11 @@
 local map = require('cartographer')
+local lspconfig = require('lspconfig')
+
+require("mason-lspconfig").setup_handlers {
+    function (server_name)
+       lspconfig[server_name].setup {}
+   end,
+}
 
 vim.diagnostic.config({
   virtual_text = true,
@@ -8,16 +15,16 @@ vim.diagnostic.config({
   severity_sort = false,
 })
 
-local border = {
-      {"╭", "FloatBorder"},
-      {"─", "FloatBorder"},
-      {"╮", "FloatBorder"},
-      {"│", "FloatBorder"},
-      {"╯", "FloatBorder"},
-      {"─", "FloatBorder"},
-      {"╰", "FloatBorder"},
-      {"│", "FloatBorder"},
-}
+-- local border = {
+--       {"╭", "FloatBorder"},
+--       {"─", "FloatBorder"},
+--       {"╮", "FloatBorder"},
+--       {"│", "FloatBorder"},
+--       {"╯", "FloatBorder"},
+--       {"─", "FloatBorder"},
+--       {"╰", "FloatBorder"},
+--       {"│", "FloatBorder"},
+-- }
 
 local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
 function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
