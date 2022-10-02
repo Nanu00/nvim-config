@@ -150,3 +150,4 @@ use {'Saecki/crates.nvim', requires = { 'nvim-lua/plenary.nvim' }, config = func
 use {'ellisonleao/glow.nvim', branch = 'main', config = function() require('plugins.glow') end}
 use {'tommcdo/vim-exchange'}
 use {'stevearc/dressing.nvim'}
+use { 'thibthib18/ros-nvim', config=function() require('plugins.ros') end}
