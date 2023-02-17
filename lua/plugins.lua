@@ -48,8 +48,8 @@ use {'nathom/filetype.nvim'}
 use {'kyazdani42/nvim-web-devicons'}
 
 -- Theme(s)
-use 'olimorris/onedarkpro.nvim'
-use "rafamadriz/neon"
+-- use 'olimorris/onedarkpro.nvim'
+-- use "rafamadriz/neon"
 use {'navarasu/onedark.nvim', config = function() require('plugins.onedark') end}
 
 ------------
