@@ -4,7 +4,7 @@ local map = require('cartographer')
 saga.init_lsp_saga()
 
 map.n.nore.silent['<leader>cdj'] = '<cmd>lua vim.lsp.buf.definition()<CR>'
-map.n.nore.silent['<leader>cdp'] = "<cmd>lua require'lspsaga.provider'.preview_definition()<CR>"
+map.n.nore.silent['<leader>cd'] = "<cmd>lua require'lspsaga.provider'.preview_definition()<CR>"
 map.n.nore.silent['<leader>ca'] = "<cmd>lua require('lspsaga.codeaction').range_code_action()<CR>"
 map.v.nore.silent['<leader>ca'] = ":<C-U>lua require('lspsaga.codeaction').range_code_action()<CR>"
 

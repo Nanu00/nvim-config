@@ -66,7 +66,7 @@ use {'neovim/nvim-lspconfig', config = function() require('plugins.lsp') end}
 -- UI
 use {'nvim-lua/lsp-status.nvim'}
 use {'nvim-lua/popup.nvim'}
-use {'tami5/lspsaga.nvim', config = function() require('plugins.saga') end}
+-- use {'tami5/lspsaga.nvim', config = function() require('plugins.saga') end}
 use {'SmiteshP/nvim-gps', config = function() require('plugins.gps') end, after = 'nvim-treesitter'}
 use {'jose-elias-alvarez/nvim-lsp-ts-utils', after = {'nvim-treesitter'}}
 use {'folke/lsp-trouble.nvim', config = function() require('plugins.trouble') end}
@@ -83,7 +83,7 @@ use {'hrsh7th/cmp-calc'}
 use {'hrsh7th/cmp-cmdline'}
 -- use {'quangnguyen30192/cmp-nvim-ultisnips', config = function() require('plugins.cmp-ultisnips') end}
 use {'saadparwaiz1/cmp_luasnip'}
-use {'onsails/lspkind-nvim'}
+use {'onsails/lspkind-nvim', config = function() require('plugins.lspkind') end}
 use {'ray-x/cmp-treesitter'}
 use {'hrsh7th/nvim-cmp', config = function() require('plugins.cmp') end}
 use {'jose-elias-alvarez/null-ls.nvim', config = function() require('plugins.null-ls') end, requires = {'nvim-lua/plenary.nvim'}}
@@ -121,6 +121,8 @@ use {'rcarriga/nvim-dap-ui', requires = {"mfussenegger/nvim-dap"}, config = func
 use {'simrat39/rust-tools.nvim', config = function() require('plugins.rust-tools') end}
 use {'elkowar/yuck.vim'}
 use {'eraserhd/parinfer-rust', run = "make install && cargo build --release && cargo install"}
+use {'p00f/clangd_extensions.nvim', config = function() require('plugins.clangd_extensions') end }
+-- use {'lewis6991/hover.nvim', confug = function() require('plugins.hover') end}
 
 ------------
 -- Others
@@ -149,5 +151,5 @@ use {'Saecki/crates.nvim', requires = { 'nvim-lua/plenary.nvim' }, config = func
 -- use {'iamcco/markdown-preview.nvim', config = function() require('plugins.markdown-preview') end, run = 'cd app && yarn install', ft = 'markdown'}
 use {'ellisonleao/glow.nvim', branch = 'main', config = function() require('plugins.glow') end}
 use {'tommcdo/vim-exchange'}
-use {'stevearc/dressing.nvim'}
+use {'stevearc/dressing.nvim', config = function() require('plugins.dressing') end}
 use { 'thibthib18/ros-nvim', config=function() require('plugins.ros') end}

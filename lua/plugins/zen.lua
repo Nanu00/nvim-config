@@ -1,10 +1,10 @@
 require('zen-mode').setup {
   window = {
-    backdrop = 0.9, -- shade the backdrop of the Zen window. Set to 1 to keep the same as Normal
+    backdrop = 1, -- shade the backdrop of the Zen window. Set to 1 to keep the same as Normal
     -- height and width can be:
     -- * an absolute number of cells when > 1
     -- * a percentage of the width / height of the editor when <= 1
-    width = .8, -- width of the Zen window
+    width = .6, -- width of the Zen window
     height = 0.8, -- height of the Zen window
     -- by default, no options are changed for the Zen window
     -- uncomment any of the options below, or add other vim.wo options you want to apply
@@ -36,6 +36,10 @@ require('zen-mode').setup {
     kitty = {
       enabled = false,
       font = "+4", -- font size increment
+    },
+    alacritty = {
+      enabled = true,
+      font = "20"
     },
   },
 
