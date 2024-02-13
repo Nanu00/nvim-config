@@ -1,7 +1,8 @@
--- require('keymaps')
--- require('lsp.config')
-if vim.g.vscode then return end
+-- General Neovim keymaps
+require("core.keymaps")
 
-require('plugins')
-require('config')
-require('settings')
+-- Handle plugins with lazy.nvim
+require("core.lazy")
+
+-- Other options
+require("core.options")

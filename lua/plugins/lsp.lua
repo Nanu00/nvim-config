@@ -1,107 +1,174 @@
-local map = require('cartographer')
-local lspconfig = require('lspconfig')
-local configs = require("lspconfig.configs")
+-- LSP Configuration & Plugins
+return {
+    {
+        "neovim/nvim-lspconfig",
+        dependencies = {
+            "williamboman/mason.nvim",
+            "williamboman/mason-lspconfig.nvim",
+            {
+                "j-hui/fidget.nvim",
+                tag = "legacy",
+                event = "LspAttach",
+            },
+            "folke/neodev.nvim",
+            "RRethy/vim-illuminate",
+            "hrsh7th/cmp-nvim-lsp",
+            "jubnzv/virtual-types.nvim",
+        },
+        config = function()
+            -- Set up Mason before anything else
+            require("mason").setup()
+            require("mason-lspconfig").setup({
+                ensure_installed = {
+                    "lua_ls",
+                    "pyright",
+                    "clangd",
+                    "rust_analyzer",
+                    "hdl_checker",
+                },
+                automatic_installation = true,
+            })
 
-if not configs.xtensaclangd then
-    configs.xtensaclangd = {
-        default_config = {
-            cmd = {'$HOME/.espressif/tools/xtensa-clang/14.0.0-38679f0333/xtensa-esp32-elf-clang/bin/clangd'},
-            filetypes = {},
-            -- root_dir = lspconfig.util.root_pattern('sdkconfig'),
-            -- root_dir = function(fname)
-            --     return lspconfig.util.find_git_ancestor(fname) or
-            --     vim.loop.os_homedir()
-            -- end,
-            settings = {}
-        }
-    }
-end
+            -- Quick access via keymap
+            require("helpers.keys").map("n", "<leader>M", "<cmd>Mason<cr>", "Show Mason")
 
-require("mason-lspconfig").setup_handlers {
-    function (server_name)
-        if (server_name ~= "rust_analyzer") then
-            lspconfig[server_name].setup {}
-        end
-   end,
+            -- Neodev setup before LSP config
+            require("neodev").setup()
+
+            -- Turn on LSP status information
+            require("fidget").setup()
+
+            -- Set up cool signs for diagnostics
+            local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+            for type, icon in pairs(signs) do
+                local hl = "DiagnosticSign" .. type
+                vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+            end
+
+            -- Diagnostic config
+            local config = {
+                virtual_text = false,
+                signs = {
+                    active = signs,
+                },
+                update_in_insert = true,
+                underline = true,
+                severity_sort = true,
+                float = {
+                    focusable = true,
+                    style = "minimal",
+                    border = "rounded",
+                    source = "always",
+                    header = "",
+                    prefix = "",
+                },
+            }
+            vim.diagnostic.config(config)
+
+            -- This function gets run when an LSP connects to a particular buffer.
+            local on_attach = function(client, bufnr)
+                local lsp_map = require("helpers.keys").lsp_map
+
+                lsp_map("<leader>lr", vim.lsp.buf.rename, bufnr, "Rename symbol")
+                lsp_map("<leader>la", vim.lsp.buf.code_action, bufnr, "Code action")
+                lsp_map("<leader>ld", vim.lsp.buf.type_definition, bufnr, "Type definition")
+                lsp_map("<leader>ls", require("telescope.builtin").lsp_document_symbols, bufnr, "Document symbols")
+
+                lsp_map("gd", vim.lsp.buf.definition, bufnr, "Goto Definition")
+                lsp_map("gr", require("telescope.builtin").lsp_references, bufnr, "Goto References")
+                lsp_map("gI", vim.lsp.buf.implementation, bufnr, "Goto Implementation")
+                lsp_map("K", vim.lsp.buf.hover, bufnr, "Hover Documentation")
+                lsp_map("gD", vim.lsp.buf.declaration, bufnr, "Goto Declaration")
+
+                -- Create a command `:Format` local to the LSP buffer
+                vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
+                    vim.lsp.buf.format()
+                end, { desc = "Format current buffer with LSP" })
+
+                lsp_map("<leader>ff", "<cmd>Format<cr>", bufnr, "Format")
+
+                -- Attach and configure vim-illuminate
+                require("illuminate").on_attach(client)
+
+                -- Attach virtual-types
+                require("virtualtypes").on_attach(client)
+            end
+
+            -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
+            local capabilities = vim.lsp.protocol.make_client_capabilities()
+            capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+
+            -- Lua
+            require("lspconfig")["lua_ls"].setup({
+                on_attach = on_attach,
+                capabilities = capabilities,
+                settings = {
+                    Lua = {
+                        completion = {
+                            callSnippet = "Replace",
+                        },
+                        diagnostics = {
+                            globals = { "vim" },
+                        },
+                        workspace = {
+                            library = {
+                                [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+                                [vim.fn.stdpath("config") .. "/lua"] = true,
+                            },
+                        },
+                    },
+                },
+            })
+
+            -- Python
+            require("lspconfig")["pyright"].setup({
+                on_attach = on_attach,
+                capabilities = capabilities,
+                settings = {
+                    pylsp = {
+                        plugins = {
+                            flake8 = {
+                                enabled = true,
+                                maxLineLength = 88, -- Black's line length
+                            },
+                            -- Disable plugins overlapping with flake8
+                            pycodestyle = {
+                                enabled = false,
+                            },
+                            mccabe = {
+                                enabled = false,
+                            },
+                            pyflakes = {
+                                enabled = false,
+                            },
+                            -- Use Black as the formatter
+                            autopep8 = {
+                                enabled = false,
+                            },
+                        },
+                    },
+                },
+            })
+
+            -- C/C++
+            require("lspconfig")["clangd"].setup({
+                capabilities = capabilities
+            })
+
+            -- Rust
+            require'lspconfig'.rust_analyzer.setup{
+                capabilities = capabilities,
+                settings = {
+                    ['rust-analyzer'] = {
+                        diagnostics = {
+                            enable = false;
+                        }
+                    }
+                }
+            }
+
+            -- Verilog
+            require'lspconfig'.hdl_checker.setup{}
+        end,
+    },
 }
-
-lspconfig.xtensaclangd.setup {
-}
-
-vim.diagnostic.config({
-  virtual_text = true,
-  signs = true,
-  underline = true,
-  update_in_insert = false,
-  severity_sort = false,
-})
-
-local border = {
-      {"╭", "FloatBorder"},
-      {"─", "FloatBorder"},
-      {"╮", "FloatBorder"},
-      {"│", "FloatBorder"},
-      {"╯", "FloatBorder"},
-      {"─", "FloatBorder"},
-      {"╰", "FloatBorder"},
-      {"│", "FloatBorder"},
-}
-
-local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
-function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
-  opts = opts or {}
-  opts.border = border
-  return orig_util_open_floating_preview(contents, syntax, opts, ...)
-end
-
-local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
-for type, icon in pairs(signs) do
-  local hl = "DiagnosticSign" .. type
-  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-end
-
-local icons = {
-  Class = " ",
-  Color = " ",
-  Constant = " ",
-  Constructor = " ",
-  Enum = "了 ",
-  EnumMember = " ",
-  Field = " ",
-  File = " ",
-  Folder = " ",
-  Function = " ",
-  Interface = "ﰮ ",
-  Keyword = " ",
-  Method = "ƒ ",
-  Module = " ",
-  Property = " ",
-  Snippet = "﬌ ",
-  Struct = " ",
-  Text = " ",
-  Unit = " ",
-  Value = " ",
-  Variable = " ",
-}
-
-local kinds = vim.lsp.protocol.CompletionItemKind
-for i, kind in ipairs(kinds) do
-kinds[i] = icons[kind] or kind
-end
-
-vim.diagnostic.config({
-  virtual_text = true,
-  signs = true,
-  underline = true,
-  update_in_insert = true,
-  severity_sort = true,
-})
-
--- vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
-map.n.nore.silent['<leader>cd'] = '<cmd>lua vim.lsp.buf.definition()<CR>'
-map.n.nore.silent['<leader>ca'] = "<cmd>lua vim.lsp.buf.code_action()<CR>"
-
-map.n.nore.silent['Q'] = "<cmd>lua vim.diagnostic.open_float(nil, {focus=false})<cr>"
-map.n.nore.silent['K'] = "<cmd>lua vim.lsp.buf.hover()<CR>"
-
-map.n.nore.silent['<leader>cr'] = "<cmd>lua vim.lsp.buf.rename()<CR>"

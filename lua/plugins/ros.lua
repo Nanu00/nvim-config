@@ -1,1 +1,0 @@
-require('ros-nvim').setup({})

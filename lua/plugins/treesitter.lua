@@ -1,80 +1,65 @@
-require('nvim-treesitter.configs').setup {
-  ensure_installed = "all", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
-  sync_install = false,            -- install languages synchronously (only applied to `ensure_installed`)
-  ignore_install = { "haskell" },  -- list of parsers to ignore installing
-  highlight = {
-    enable = true,
-    -- disable = { "c", "rust" },  -- list of language that will be disabled
-    -- additional_vim_regex_highlighting = false,
-  },
+-- Highlight, edit, and navigate code
+return {
+	{
+		"nvim-treesitter/nvim-treesitter",
+		build = function()
+			pcall(require("nvim-treesitter.install").update({ with_sync = true }))
+		end,
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter-textobjects",
+		},
+		config = function()
+			require("nvim-treesitter.configs").setup({
+				-- Add languages to be installed here that you want installed for treesitter
+				ensure_installed = { "c", "cpp", "go", "lua", "python", "rust", "vimdoc", "vim" },
 
-  incremental_selection = {
-    enable = false,
-    keymaps = {
-      init_selection    = "<leader>gnn",
-      node_incremental  = "<leader>gnr",
-      scope_incremental = "<leader>gne",
-      node_decremental  = "<leader>gnt",
-    },
-  },
-
-  indent = {
-    enable = true
-  },
-
-  rainbow = {
-    enable = true
-  },
-
-  context_commentstring = {
-    enable = true,
-    enable_autocmd = false,
-  },
-
-  textobjects = {
-    move = {
-      enable = true,
-      set_jumps = true, -- whether to set jumps in the jumplist
-      goto_next_start = {
-        ["]]"] = "@function.outer",
-        ["]m"] = "@class.outer",
-      },
-      goto_next_end = {
-        ["]["] = "@function.outer",
-        ["]M"] = "@class.outer",
-      },
-      goto_previous_start = {
-        ["[["] = "@function.outer",
-        ["[m"] = "@class.outer",
-      },
-      goto_previous_end = {
-        ["[]"] = "@function.outer",
-        ["[M"] = "@class.outer",
-      },
-    },
-    select = {
-      enable = true,
-
-      -- Automatically jump forward to textobj, similar to targets.vim
-      lookahead = true,
-
-      keymaps = {
-        -- You can use the capture groups defined in textobjects.scm
-        ["af"] = "@function.outer",
-        ["if"] = "@function.inner",
-        ["ac"] = "@class.outer",
-        ["ic"] = "@class.inner",
-      },
-    },
-  },
-
-  textsubjects = {
-      enable = true,
-      keymaps = {
-          ['<cr>'] = 'textsubjects-smart', -- works in visual mode
-      }
-    },
+				highlight = { enable = true },
+				indent = { enable = true, disable = { "python" } },
+				incremental_selection = {
+					enable = true,
+					keymaps = {
+						init_selection = "<c-space>",
+						node_incremental = "<c-space>",
+						scope_incremental = "<c-s>",
+						node_decremental = "<c-backspace>",
+					},
+				},
+				textobjects = {
+					select = {
+						enable = true,
+						lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
+						keymaps = {
+							-- You can use the capture groups defined in textobjects.scm
+							["aa"] = "@parameter.outer",
+							["ia"] = "@parameter.inner",
+							["af"] = "@function.outer",
+							["if"] = "@function.inner",
+							["ac"] = "@class.outer",
+							["ic"] = "@class.inner",
+						},
+					},
+					move = {
+						enable = true,
+						set_jumps = true, -- whether to set jumps in the jumplist
+						goto_next_start = {
+							["]m"] = "@function.outer",
+							["]]"] = "@class.outer",
+						},
+						goto_next_end = {
+							["]M"] = "@function.outer",
+							["]["] = "@class.outer",
+						},
+						goto_previous_start = {
+							["[m"] = "@function.outer",
+							["[["] = "@class.outer",
+						},
+						goto_previous_end = {
+							["[M"] = "@function.outer",
+							["[]"] = "@class.outer",
+						},
+					},
+				},
+			})
+		end,
+	},
 }
-
-vim.o.foldmethod = "expr"
-vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
