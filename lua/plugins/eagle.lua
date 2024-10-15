@@ -9,8 +9,8 @@
 -- the configuration below.
 
 return {
-    "soulis-1256/hoverhints.nvim",
+    "soulis-1256/eagle.nvim",
     config = function()
-        require("hoverhints").setup({})
+        require("eagle").setup({})
     end
 }
