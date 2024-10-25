@@ -23,7 +23,6 @@ return {
                     "lua_ls",
                     "pyright",
                     "clangd",
-                    "rust_analyzer",
                     "hdl_checker",
                 },
                 automatic_installation = true,
@@ -155,17 +154,18 @@ return {
                 capabilities = capabilities
             })
 
+            -- SET BY RUSTACEAN PLUGIN, NO NEED TO SET HERE
             -- Rust
-            require'lspconfig'.rust_analyzer.setup{
-                capabilities = capabilities,
-                settings = {
-                    ['rust-analyzer'] = {
-                        diagnostics = {
-                            enable = false;
-                        }
-                    }
-                }
-            }
+            -- require'lspconfig'.rust_analyzer.setup{
+            --     capabilities = capabilities,
+            --     settings = {
+            --         ['rust-analyzer'] = {
+            --             diagnostics = {
+            --                 enable = false;
+            --             }
+            --         }
+            --     }
+            -- }
 
             -- Verilog
             require'lspconfig'.hdl_checker.setup{}

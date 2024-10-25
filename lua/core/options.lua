@@ -19,3 +19,10 @@ end
 -- Set other options
 local colorscheme = require("helpers.colorscheme")
 vim.cmd.colorscheme(colorscheme)
+
+-- Fix cursor on exit
+vim.api.nvim_create_autocmd("ExitPre", {
+	group = vim.api.nvim_create_augroup("Exit", { clear = true }),
+	command = "set guicursor=a:ver90",
+	desc = "Set cursor back to beam when leaving Neovim."
+})

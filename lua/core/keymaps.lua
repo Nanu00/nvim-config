@@ -63,3 +63,9 @@ map("n", "<leader>ur", "<cmd>nohl<cr>", "Clear highlights")
 
 -- Set Leader
 require("helpers.keys").set_leader(" ")
+
+-- LSP Saga Keybinds
+map("n", "<leader>ca", "<cmd>Lspsaga code_actions<cr>", "Code actions")
+map("n", "<leader>cd", "<cmd>Lspsaga show_line_diagnostics<cr>", "Code actions")
+map("n", "<leader>cr", "<cmd>Lspsaga rename<cr>", "Code actions")
+map("n", "<leader>ck", "<cmd>Lspsaga peek_definition<cr>", "Code actions")
