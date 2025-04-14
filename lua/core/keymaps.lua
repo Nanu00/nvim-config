@@ -17,6 +17,10 @@ map('n', 'gx', vim.diagnostic.open_float, "Show diagnostics under cursor")
 map("n", "<M-h>", "^", "Go to beginning of line")
 map("n", "<M-l>", "$", "Go to end of line")
 
+-- Buffer navigation
+map("n", "H", ":bprevious<CR>", "Previous buffer")
+map("n", "L", ":bnext<CR>", "Next buffer")
+
 -- Better window navigation
 map("n", "<C-h>", "<C-w><C-h>", "Navigate windows to the left")
 map("n", "<C-j>", "<C-w><C-j>", "Navigate windows down")
@@ -41,8 +45,7 @@ map("n", "<leader>db", buffers.delete_this, "Current buffer")
 map("n", "<leader>do", buffers.delete_others, "Other buffers")
 map("n", "<leader>da", buffers.delete_all, "All buffers")
 
--- Navigate buffers
-map("n", "<S-l>", ":bnext<CR>")
+-- Navigate buffers map("n", "<S-l>", ":bnext<CR>")
 map("n", "<S-h>", ":bprevious<CR>")
 
 -- Stay in indent mode
@@ -65,7 +68,7 @@ map("n", "<leader>ur", "<cmd>nohl<cr>", "Clear highlights")
 require("helpers.keys").set_leader(" ")
 
 -- LSP Saga Keybinds
-map("n", "<leader>ca", "<cmd>Lspsaga code_actions<cr>", "Code actions")
+map("n", "<leader>ca", "<cmd>Lspsaga code_action<cr>", "Code actions")
 map("n", "<leader>cd", "<cmd>Lspsaga show_line_diagnostics<cr>", "Code actions")
 map("n", "<leader>cr", "<cmd>Lspsaga rename<cr>", "Code actions")
 map("n", "<leader>ck", "<cmd>Lspsaga peek_definition<cr>", "Code actions")

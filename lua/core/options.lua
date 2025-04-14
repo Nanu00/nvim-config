@@ -26,3 +26,8 @@ vim.api.nvim_create_autocmd("ExitPre", {
 	command = "set guicursor=a:ver90",
 	desc = "Set cursor back to beam when leaving Neovim."
 })
+
+-- Set neovide settings
+if vim.g.neovide then
+	vim.o.guifont = "CozetteVector Nerd Font:h10"
+end
