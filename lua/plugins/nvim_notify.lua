@@ -10,7 +10,12 @@
 
 return {
     "rcarriga/nvim-notify",
-    config = function ()
-	vim.notify = require("notify")
+    dependencies = { "catppuccin/nvim" },
+    config = function()
+        local palette = require("catppuccin.palettes").get_palette()
+        require("notify").setup({
+            background_colour = palette.base,
+        })
+        vim.notify = require("notify")
     end
 }

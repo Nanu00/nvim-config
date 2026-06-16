@@ -1,13 +1,28 @@
--- No example configuration was found for this plugin.
---
--- For detailed information on configuring this plugin, please refer to its
--- official documentation:
---
---   https://github.com/folke/zen-mode.nvim
---
--- If you wish to use this plugin, you can optionally modify and then uncomment
--- the configuration below.
-
 return {
-  -- "folke/zen-mode.nvim"
+	{
+		"folke/zen-mode.nvim",
+		cmd = "ZenMode",
+		keys = {
+			{ "<leader>uz", "<cmd>ZenMode<cr>", desc = "Zen mode" },
+		},
+		opts = {
+			window = {
+				options = {
+					signcolumn = "no", -- disable signcolumn
+					number = false, -- disable number column
+					relativenumber = false, -- disable relative numbers
+					cursorline = false, -- disable cursorline
+					cursorcolumn = false, -- disable cursor column
+					foldcolumn = "0", -- disable fold column
+					list = false, -- disable whitespace characters
+				},
+			},
+			plugins = {
+				kitty = {
+					enabled = true,
+					font = "+4",
+				},
+			},
+		},
+	},
 }

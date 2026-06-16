@@ -2,7 +2,9 @@
 require("core.keymaps")
 
 -- Handle plugins with lazy.nvim
-require("core.lazy")
+if not vim.g.vscode then
+    require("core.lazy")
+end
 
 -- Other options
 require("core.options")

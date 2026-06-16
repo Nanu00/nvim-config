@@ -3,11 +3,13 @@
 -- For detailed information on configuring this plugin, please refer to its
 -- official documentation:
 --
---   https://github.com/4e554c4c/darkman.nvim
+--   https://github.com/chentoast/marks.nvim
 --
 -- If you wish to use this plugin, you can optionally modify and then uncomment
 -- the configuration below.
 
 return {
-  -- "4e554c4c/darkman.nvim"
+  "chentoast/marks.nvim",
+  event = "VeryLazy",
+  opts = {},
 }
