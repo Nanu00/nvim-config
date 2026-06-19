@@ -78,7 +78,7 @@ return {
             })
 
             vim.lsp.enable({ "lua_ls", "pyright", "clangd" })
-
+            vim.lsp.inlay_hint.enable(true)
         end,
     },
 }
