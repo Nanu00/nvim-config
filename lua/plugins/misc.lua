@@ -16,5 +16,11 @@ return {
 		"kazhala/close-buffers.nvim",
 	},
 	"tpope/vim-sleuth", -- Detect tabstop and shiftwidth automatically
-	"tpope/vim-surround", -- Surround stuff with the ys-, cs-, ds- commands
+	-- Surround stuff: sa (add), sd (delete), sr (replace)
+	{
+		"echasnovski/mini.surround",
+		config = function()
+			require("mini.surround").setup()
+		end,
+	},
 }
