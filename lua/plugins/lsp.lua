@@ -23,6 +23,7 @@ return {
                     "lua_ls",
                     "pyright",
                     "clangd",
+                    "marksman",
                 },
                 automatic_installation = true,
             })
@@ -77,7 +78,7 @@ return {
                 },
             })
 
-            vim.lsp.enable({ "lua_ls", "pyright", "clangd" })
+            vim.lsp.enable({ "lua_ls", "pyright", "clangd", "marksman" })
             vim.lsp.inlay_hint.enable(true)
         end,
     },
